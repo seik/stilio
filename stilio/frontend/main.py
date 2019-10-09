@@ -7,7 +7,7 @@ from starlette.templating import Jinja2Templates
 
 from stilio.frontend import settings as project_settings
 from stilio.frontend.pagination import get_pages
-from stilio.persistence.utils import search_by_name, total_torrents_count
+from stilio.persistence.torrents import Torrent
 
 app = FastAPI()
 
@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory="stilio/frontend/templates")
 
 @app.get("/")
 async def index(request: Request):
-    count = await total_torrents_count()
+    count = await Torrent.total_torrent_count()
     return templates.TemplateResponse("index.html", {
         "request": request,
         "count": count
@@ -29,7 +29,7 @@ async def search(request: Request, query: str = Query(None, max_length=50), page
     if not query:
         return RedirectResponse("/")
 
-    torrents, count = await search_by_name(
+    torrents, count = await Torrent.search_by_name(
         query,
         limit=project_settings.PAGE_SIZE,
         offset=project_settings.PAGE_SIZE * (page - 1),

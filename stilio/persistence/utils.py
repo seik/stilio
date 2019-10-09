@@ -43,17 +43,3 @@ async def store_metadata(
 
     if logger:
         logger.info(f"Added: {name}")
-
-
-async def search_by_name(
-        name: str, limit=None, offset=None
-) -> Tuple[List[Torrent], int]:
-    torrents_queryset = Torrent.objects.filter(name__icontains=name)
-    torrent_count = await torrents_queryset.count()
-    torrents_result = await torrents_queryset.limit(limit).offset(offset).all()
-    return torrents_result, torrent_count
-
-
-async def total_torrents_count() -> int:
-    count = await Torrent.objects.count()
-    return count

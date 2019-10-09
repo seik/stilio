@@ -1,3 +1,6 @@
+import asyncio
+from typing import Tuple, List
+
 import databases
 import orm
 import sqlalchemy
@@ -22,9 +25,38 @@ class Torrent(orm.Model):
     def __str__(self):
         return self.name
 
-    @property
-    def size(self):
-        return 1
+    async def get_size(self) -> int:
+        files = await File.objects.filter(torrent=self).all()
+        return sum([file.size for file in files])
+
+    @staticmethod
+    async def total_torrent_count() -> int:
+        count = await Torrent.objects.count()
+        return count
+
+    @staticmethod
+    async def search_by_name(
+            name: str,
+            limit=None,
+            offset=None
+    ) -> Tuple[List["Torrent"], int]:
+        queryset = Torrent.objects.filter(name__icontains=name)
+        torrent_count = await queryset.count()
+        torrents = await queryset.limit(limit).offset(offset).all()
+
+        # TODO ORM is not powerful enough even to let me do a simple
+        # aggregation... search for an alternative.
+
+        # This shit is slow. Really slow and I don't want to write a
+        # raw SQL query
+
+        # Add size to torrent results
+        torrent_results = []
+        for torrent in torrents:
+            torrent.size = await torrent.get_size()
+            torrent_results.append(torrent)
+
+        return torrent_results, torrent_count
 
 
 class File(orm.Model):
