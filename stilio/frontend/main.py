@@ -25,7 +25,7 @@ async def index(request: Request):
 
 
 @app.get("/search")
-async def search(request: Request, query: str = Query(None, max_length=50), page: int = Query(1, gt=1)):
+async def search(request: Request, query: str = Query(None, max_length=50), page: int = Query(1, gt=0)):
     if not query:
         return RedirectResponse("/")
 
