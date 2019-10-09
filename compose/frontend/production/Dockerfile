@@ -18,4 +18,4 @@ RUN apk add --update --no-cache --virtual .build-deps build-base gcc musl-dev gi
     && pipenv install \
     && apk del .build-deps build-base gcc musl-dev git
 
-ENTRYPOINT ["pipenv", "run", "gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000", "stilio.frontend.main:app"]
+ENTRYPOINT ["pipenv", "run", "gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:80", "stilio.frontend.main:app"]
