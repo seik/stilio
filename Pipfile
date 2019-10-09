@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+better-bencode = "*"
+aiosqlite = "*"
+gunicorn = "*"
+fastapi = "*"
+uvicorn = "*"
+jinja2 = "*"
+aiofiles = "*"
+orm = {editable = true, ref = "master", git = "https://github.com/seik/orm.git"}
+
+[dev-packages]
+black = "*"
+mypy = "*"
+coverage = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

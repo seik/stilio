@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Stilio{% endblock title %}
+{% block content %}
+    <div class="search-container">
+        <div class="search-top-section">
+            <form action="search" method="get">
+                <div class="search-nav">
+                    <a href="/">
+                        <img src="static/images/stilio-logo.png"
+                             class="small-logo-search">
+                    </a>
+                    {% include "components/search_box.html" %}
+                </div>
+            </form>
+            <p>Displaying {{ count }} related torrents for "{{ query }}"</p>
+        </div>
+        <div class="torrent-results">
+            {% for torrent in torrents %}
+                <div class="box">
+                    <div class="torrent-info">
+                        <p class="torrent-name-list has-text-black">{{ torrent.name }}</p>
+                        <div class="torrent-extra-info">
+                            <p class="torrent-date">
+                                <i class="far fa-clock"></i>{{ torrent.date.strftime("%d-%m-%y %H:%M") }}
+                            </p>
+                            <p>{{ torrent.size|filesizeformat }}</p>
+                        </div>
+                    </div>
+                    <div class="download-elements">
+                        <a href="//itorrents.org/torrent/{{ torrent.info_hash }}.torrent"><i
+                                class="fas fa-file"></i></a>
+                        <a href="magnet:?xt=urn:btih:{{ torrent.info_hash }}&dn={{ torrent.name }}"><i
+                                class="fas fa-magnet"></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if pages|length > 1 %}
+            <nav class="pagination is-centered" role="navigation"
+                 aria-label="pagination">
+                <ul class="pagination-list">
+                    {% for page in pages %}
+                        <li>
+                            <a href="search?query={{ query }}&page={{ page }}"
+                               class="pagination-link {% if page == current_page %}is-current"{% endif %}
+                               aria-label="Goto page {{ page }}"
+                               {% if page == current_page %}aria-current="page"{% endif %}>
+                                {{ page }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+{% endblock content %}

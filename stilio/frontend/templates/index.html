@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Stilio{% endblock title %}
+{% block content %}
+    <div class="centered-search-box">
+        <div class="main-search-container">
+            <img src="static/images/stilio-logo.png" class="main-logo-search">
+            <form action="/search" method="get">
+                {% include "components/search_box.html" %}
+                <p class="has-text-grey has-text-centered">
+                    <small>
+                        {{ count }} torrents indexed and counting
+                    </small>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

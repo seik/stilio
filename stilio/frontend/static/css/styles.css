@@ -1,0 +1,128 @@
+.centered-search-box {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 70%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.main-search-container > img {
+    padding-bottom: 15px;
+}
+
+.main-logo-search {
+    height: 200px;
+    width: 200px;
+}
+
+.small-logo-search {
+    height: 56px;
+    width: 56px;
+}
+
+.search-nav {
+    display: flex;
+    align-items: center;
+}
+
+.search-nav > a {
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+}
+
+.search-container {
+    padding: 20px;
+}
+
+.content-results {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.torrent-name-list {
+    word-break: break-all;
+}
+
+.search-top-section {
+    margin-bottom: 24px;
+}
+
+.pagination {
+    margin-top: 24px;
+}
+
+.torrent-result {
+    display: flex;
+    margin-top: 20px;
+
+}
+
+.torrent-results > .box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.torrent-results > :first-child {
+    margin-top: 0 !important;
+}
+
+@media (min-width: 769px) {
+    .torrent-results > .box {
+        width: 60%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .torrent-results > .box {
+        width: 55%;
+    }
+}
+
+@media (min-width: 1216px) {
+    .torrent-results > .box {
+        width: 45%;
+    }
+}
+
+.torrent-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.torrent-extra-info {
+    display: flex;
+    margin-top: 10px;
+}
+
+.torrent-extra-info > :first-child {
+    margin-right: 10px;
+}
+
+.download-elements {
+    display: flex;
+    align-items: center;
+}
+
+.download-elements > :first-child {
+    margin-right: 10px;
+    margin-left: 14px;
+}
+
+.torrent-date > :first-child {
+    margin-right: 6px;
+}
