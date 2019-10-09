@@ -23,7 +23,7 @@ services:
     depends_on:
       - crawler
     ports:
-      - "8000:8000"
+      - "8000:80"
     volumes:
       - ./data:/usr/src/app/data
     logging:
