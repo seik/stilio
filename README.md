@@ -10,3 +10,12 @@
 - Completely written in python.
 - Fast. But __*never*__ trade code readability for speed.
 - Easy set up.
+
+### FAQ
+
+> The crawler speed is not so good.
+
+Try to run this commands if you are on linux:
+
+    iptables -I OUTPUT -t raw -p udp --sport PORT_NUMBER -j NOTRACK
+    iptables -I PREROUTING -t raw -p udp --dport PORT_NUMBER -j NOTRACK
