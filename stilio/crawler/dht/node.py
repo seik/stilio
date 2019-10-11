@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import ipaddress
+from ipaddress import ip_address
 import os
 
 
@@ -45,7 +45,7 @@ class Node:
         return os.urandom(20)
 
     def is_address_private(self) -> bool:
-        return ipaddress.ip_address(self.address).is_private
+        return ip_address(self.address).is_private
 
     def is_valid_port(self) -> bool:
         return 0 < self.port < 65536
