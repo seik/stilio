@@ -14,6 +14,14 @@ class Node:
     def hex_id(self) -> str:
         return self.nid.hex()
 
+    @property
+    def is_address_private(self) -> bool:
+        return ip_address(self.address).is_private
+
+    @property
+    def is_valid_port(self) -> bool:
+        return 0 < self.port < 65536
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Node):
             return (
@@ -43,9 +51,3 @@ class Node:
         Generates a random node id which consists of 20 bytes.
         """
         return os.urandom(20)
-
-    def is_address_private(self) -> bool:
-        return ip_address(self.address).is_private
-
-    def is_valid_port(self) -> bool:
-        return 0 < self.port < 65536

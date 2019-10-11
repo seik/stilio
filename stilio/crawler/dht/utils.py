@@ -43,6 +43,6 @@ def is_valid_node(local_node: Node, remote_node: Node) -> bool:
     """
     return (
             remote_node != local_node
-            and remote_node.is_valid_port()
-            and remote_node.is_address_private()
+            and remote_node.is_valid_port
+            and remote_node.is_address_private
     )
