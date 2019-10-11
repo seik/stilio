@@ -1,4 +1,3 @@
-import ipaddress
 from socket import inet_ntoa
 from typing import List, cast
 
