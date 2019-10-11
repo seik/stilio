@@ -36,9 +36,7 @@ class Torrent(orm.Model):
 
     @staticmethod
     async def search_by_name(
-            name: str,
-            limit=None,
-            offset=None
+        name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
         queryset = Torrent.objects.filter(name__icontains=name)
         torrent_count = await queryset.count()

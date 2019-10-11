@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ipaddress
 import os
 
 
@@ -16,9 +17,9 @@ class Node:
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Node):
             return (
-                self.nid == other.nid
-                and self.address == other.address
-                and self.port == other.port
+                    self.nid == other.nid
+                    and self.address == other.address
+                    and self.port == other.port
             )
         return False
 
@@ -42,3 +43,9 @@ class Node:
         Generates a random node id which consists of 20 bytes.
         """
         return os.urandom(20)
+
+    def is_address_private(self) -> bool:
+        return ipaddress.ip_address(self.address).is_private
+
+    def is_valid_port(self) -> bool:
+        return 0 < self.port < 65536

@@ -18,14 +18,17 @@ templates = Jinja2Templates(directory="stilio/frontend/templates")
 @app.get("/")
 async def index(request: Request):
     count = await Torrent.total_torrent_count()
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "count": count
-    })
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "count": count}
+    )
 
 
 @app.get("/search")
-async def search(request: Request, query: str = Query(None, max_length=50), page: int = Query(1, gt=0)):
+async def search(
+    request: Request,
+    query: str = Query(None, max_length=50),
+    page: int = Query(1, gt=0),
+):
     if not query:
         return RedirectResponse("/")
 
@@ -42,6 +45,6 @@ async def search(request: Request, query: str = Query(None, max_length=50), page
             "torrents": torrents,
             "count": count,
             "pages": get_pages(count, page),
-            "current_page": page
-        }
+            "current_page": page,
+        },
     )

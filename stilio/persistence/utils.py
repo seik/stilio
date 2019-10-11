@@ -15,7 +15,7 @@ def init() -> None:
 
 
 async def store_metadata(
-        info_hash: bytes, metadata: dict, logger: Logger = None
+    info_hash: bytes, metadata: dict, logger: Logger = None
 ) -> None:
     name = metadata[b"name"].decode("utf-8")
 
