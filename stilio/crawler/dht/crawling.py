@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import signal
 from typing import Tuple, List
 
 from stilio.config import (
@@ -92,7 +91,7 @@ class CrawlingService(DHTDispatcher):
 
     def on_find_node(self, nodes: List[Node]) -> None:
         if not self.routing_table.is_full:
-            nodes = [node for node in nodes if dht_utils.is_valid_node(self.node, node)]
+            nodes = [node for node in nodes if self.node != node and node.is_valid]
             for node in nodes:
                 self.routing_table.add(node)
 

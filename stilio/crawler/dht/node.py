@@ -15,8 +15,12 @@ class Node:
         return self.nid.hex()
 
     @property
-    def is_address_private(self) -> bool:
-        return ip_address(self.address).is_private
+    def is_address_public(self) -> bool:
+        return not ip_address(self.address).is_private
+
+    @property
+    def is_valid(self) -> bool:
+        return self.is_address_public and self.is_valid_port
 
     @property
     def is_valid_port(self) -> bool:
@@ -25,9 +29,9 @@ class Node:
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Node):
             return (
-                    self.nid == other.nid
-                    and self.address == other.address
-                    and self.port == other.port
+                self.nid == other.nid
+                and self.address == other.address
+                and self.port == other.port
             )
         return False
 
