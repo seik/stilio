@@ -1,4 +1,9 @@
 version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
 services:
   frontend:
     build:
@@ -8,3 +13,19 @@ services:
       - "8000:8000"
     volumes:
       - .:/usr/src/app/data
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/persistence/Dockerfile
+    image: stilio_production_postgres
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "200k"
+    env_file:
+      - ./.env

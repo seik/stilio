@@ -1,10 +1,17 @@
 version: '3'
 
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+
 services:
   crawler:
     build:
       context: .
       dockerfile: compose/crawler/Dockerfile
+    depends_on:
+      - postgres
     network_mode: "host"
     ports:
       - "6881:6881"
@@ -14,7 +21,7 @@ services:
       driver: "json-file"
       options:
         max-file: "5"
-        max-size: "10m"
+        max-size: "200k"
 
   frontend:
     build:
@@ -22,6 +29,7 @@ services:
       dockerfile: compose/frontend/production/Dockerfile
     depends_on:
       - crawler
+      - postgres
     ports:
       - "80:8000"
     volumes:
@@ -30,4 +38,20 @@ services:
       driver: "json-file"
       options:
         max-file: "5"
-        max-size: "10m"
+        max-size: "200k"
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/persistence/Dockerfile
+    image: stilio_production_postgres
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "200k"
+    env_file:
+      - ./.env
