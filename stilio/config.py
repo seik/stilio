@@ -1,8 +1,15 @@
 import logging
+import os
 
-DATABASE_URL = "sqlite:///data/db.sqlite"
+# Database
+# --------------------------------------------------------
+DATABASE_NAME = os.getenv("POSTGRES_DB")
+DATABASE_HOST = os.getenv("POSTGRES_HOST")
+DATABASE_PORT = os.getenv("POSTGRES_PORT")
+DATABASE_USER = os.getenv("POSTGRES_USER")
+DATABASE_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 
-# Crawler config variables
+# Crawler
 # --------------------------------------------------------
 CRAWLER_DEBUG_LEVEL = logging.DEBUG
 CRAWLER_ADDRESS = "0.0.0.0"

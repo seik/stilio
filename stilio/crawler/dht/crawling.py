@@ -68,7 +68,7 @@ class CrawlingService(DHTDispatcher):
             logger.info(f"Active tasks: {len(asyncio.Task.all_tasks())}")
 
     def on_announce_peer(
-            self, tid: bytes, nid: bytes, info_hash: bytes, address: Tuple[str, int]
+        self, tid: bytes, nid: bytes, info_hash: bytes, address: Tuple[str, int]
     ) -> None:
         self.rpc.respond_announce_peer(
             tid=tid,
@@ -96,7 +96,7 @@ class CrawlingService(DHTDispatcher):
                 self.routing_table.add(node)
 
     def on_get_peers(
-            self, info_hash: bytes, tid: bytes, address: Tuple[str, int]
+        self, info_hash: bytes, tid: bytes, address: Tuple[str, int]
     ) -> None:
         self.rpc.respond_get_peers(
             tid=tid, info_hash=info_hash, nid=self.node.nid, address=address
@@ -106,9 +106,7 @@ class CrawlingService(DHTDispatcher):
     def on_metadata_result(self, info_hash: bytes, metadata: bytes) -> None:
         try:
             metadata_decoded = decode(metadata)
-            asyncio.ensure_future(
-                db_utils.store_metadata(info_hash, metadata_decoded, logger)
-            )
+            db_utils.store_metadata(info_hash, metadata_decoded, logger)
         except (asyncio.CancelledError, BencoderError, PersistenceError):
             pass
         except Exception as e:

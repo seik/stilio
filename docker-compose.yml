@@ -15,30 +15,33 @@ services:
     network_mode: "host"
     ports:
       - "6881:6881"
-    volumes:
-      - ./data:/usr/src/app/data
     logging:
       driver: "json-file"
       options:
         max-file: "5"
         max-size: "200k"
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_HOST: "localhost"
+    command: /start
 
   frontend:
     build:
       context: .
       dockerfile: compose/frontend/production/Dockerfile
     depends_on:
-      - crawler
       - postgres
+      - crawler
     ports:
       - "80:8000"
-    volumes:
-      - ./data:/usr/src/app/data
     logging:
       driver: "json-file"
       options:
         max-file: "5"
         max-size: "200k"
+    env_file:
+      - ./.env
 
   postgres:
     build:
@@ -48,6 +51,8 @@ services:
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
       - local_postgres_data_backups:/backups
+    ports:
+      - "5432:5432"
     logging:
       driver: "json-file"
       options:

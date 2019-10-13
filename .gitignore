@@ -115,6 +115,3 @@ dmypy.json
 
 # Jetbrains
 .idea
-
-# Stilio
-data

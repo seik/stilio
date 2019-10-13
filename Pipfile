@@ -5,13 +5,15 @@ name = "pypi"
 
 [packages]
 better-bencode = "*"
-aiosqlite = "*"
 gunicorn = "*"
 fastapi = "*"
 uvicorn = "*"
 jinja2 = "*"
 aiofiles = "*"
-orm = {editable = true, ref = "master", git = "https://github.com/seik/orm.git"}
+peewee = "*"
+peewee-async = "*"
+aiopg = "*"
+psycopg2 = "*"
 
 [dev-packages]
 black = "*"

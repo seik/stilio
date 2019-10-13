@@ -1,22 +1,13 @@
-import datetime
 from logging import Logger
-from sqlite3 import IntegrityError
-from typing import List, Tuple
+from typing import List
 
-import sqlalchemy
+from peewee import IntegrityError
 
 from stilio.persistence.exceptions import StoringError
-from stilio.persistence.torrents import Torrent, File, metadata, database
+from stilio.persistence.torrents.models import Torrent, File
 
 
-def init() -> None:
-    engine = sqlalchemy.create_engine(str(database.url))
-    metadata.create_all(engine)
-
-
-async def store_metadata(
-    info_hash: bytes, metadata: dict, logger: Logger = None
-) -> None:
+def store_metadata(info_hash: bytes, metadata: dict, logger: Logger = None) -> None:
     name = metadata[b"name"].decode("utf-8")
 
     files: List[dict] = []
@@ -30,16 +21,12 @@ async def store_metadata(
         files.append({"path": name, "size": metadata[b"length"]})
 
     try:
-        torrent = await Torrent.objects.create(
-            info_hash=info_hash.hex(), name=name, date=datetime.datetime.now()
-        )
+        torrent = Torrent.insert(info_hash=info_hash.hex(), name=name).execute()
     except IntegrityError:
         pass
     else:
         for file in files:
-            await File.objects.create(
-                path=file["path"], size=file["size"], torrent=torrent
-            )
+            File.insert(path=file["path"], size=file["size"], torrent=torrent).execute()
 
     if logger:
         logger.info(f"Added: {name}")

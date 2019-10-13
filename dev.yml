@@ -11,8 +11,6 @@ services:
       dockerfile: compose/frontend/local/Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - .:/usr/src/app/data
 
   postgres:
     build:
@@ -22,10 +20,7 @@ services:
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
       - local_postgres_data_backups:/backups
-    logging:
-      driver: "json-file"
-      options:
-        max-file: "5"
-        max-size: "200k"
+    ports:
+      - "5432:5432"
     env_file:
       - ./.env
