@@ -4,10 +4,15 @@
    contain the root `toctree` directive.
 
 stilo
-==================================
+=====
 
 .. image:: stilio-logo.png
    :align: center
 
 🦎 A DHT crawler with a minimalistic frontend, written in Python
 
+Contents
+--------
+
+* :ref:`Installation <installation>`
+* :ref:`Database <database>`
