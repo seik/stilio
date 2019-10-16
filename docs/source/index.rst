@@ -7,8 +7,7 @@ stilo
 ==================================
 
 .. image:: stilio-logo.png
-
-
+   :align: center
 
 🦎 A DHT crawler with a minimalistic frontend, written in Python
 
