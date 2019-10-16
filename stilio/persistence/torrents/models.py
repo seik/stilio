@@ -30,16 +30,20 @@ class Torrent(BaseModel):
     def __str__(self):
         return self.name
 
-    @staticmethod
-    def total_torrent_count() -> int:
-        count = Torrent.select().count()
+    @classmethod
+    def exists(cls, info_hash: bytes):
+        return cls.select().where(cls.info_hash == info_hash.hex()).exists()
+
+    @classmethod
+    def total_torrent_count(cls) -> int:
+        count = cls.select().count()
         return count
 
-    @staticmethod
+    @classmethod
     def search_by_name(
-            name: str, limit=None, offset=None
+            cls, name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
-        queryset = Torrent.select().where(Torrent.search_name.match(name, plain=True))
+        queryset = cls.select().where(Torrent.search_name.match(name, plain=True))
 
         torrent_count = queryset.select().count()
         torrents = queryset.select().limit(limit).offset(offset).execute()

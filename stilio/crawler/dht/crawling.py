@@ -19,6 +19,7 @@ from stilio.crawler.dht.routing import RoutingTable
 from stilio.crawler.dht.rpc import RPC
 from stilio.persistence import utils as db_utils
 from stilio.persistence.exceptions import PersistenceError
+from stilio.persistence.torrents.models import Torrent
 
 logging.basicConfig(level=CRAWLER_DEBUG_LEVEL)
 logger = logging.getLogger(__name__)
@@ -68,7 +69,7 @@ class CrawlingService(DHTDispatcher):
             logger.info(f"Active tasks: {len(asyncio.Task.all_tasks())}")
 
     def on_announce_peer(
-        self, tid: bytes, nid: bytes, info_hash: bytes, address: Tuple[str, int]
+            self, tid: bytes, nid: bytes, info_hash: bytes, address: Tuple[str, int]
     ) -> None:
         self.rpc.respond_announce_peer(
             tid=tid,
@@ -77,8 +78,8 @@ class CrawlingService(DHTDispatcher):
         )
         logger.debug(f"On announce peer, infohash {info_hash}")
 
-        # TODO check if torrent exist to avoid looking for metadata again
-        self.metadata_fetcher.fetch(info_hash, address)
+        if not Torrent.exists(info_hash):
+            self.metadata_fetcher.fetch(info_hash, address)
 
     def on_bandwidth_exhausted(self):
         if self.routing_table.max_size < 200:
@@ -96,7 +97,7 @@ class CrawlingService(DHTDispatcher):
                 self.routing_table.add(node)
 
     def on_get_peers(
-        self, info_hash: bytes, tid: bytes, address: Tuple[str, int]
+            self, info_hash: bytes, tid: bytes, address: Tuple[str, int]
     ) -> None:
         self.rpc.respond_get_peers(
             tid=tid, info_hash=info_hash, nid=self.node.nid, address=address
