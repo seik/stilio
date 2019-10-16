@@ -1,12 +1,11 @@
 from __future__ import annotations
 
+import datetime as dt
 from typing import List
 
 from peewee import IntegerField, CharField, DateTimeField, Tuple, ForeignKeyField
-from playhouse.postgres_ext import Match, TSVectorField
 
 from stilio.persistence.database import BaseModel
-import datetime as dt
 
 
 class Torrent(BaseModel):
@@ -43,9 +42,9 @@ class Torrent(BaseModel):
         cls, name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
         queryset = cls.select().where(
-            Torrent.name.contains(name),
-            Torrent.name.contains(name.replace(" ", ".")),
-            Torrent.name.contains(name.replace(" ", "-")),
+            (Torrent.name.contains(name))
+            | (Torrent.name.contains(name.replace(" ", ".")))
+            | (Torrent.name.contains(name.replace(" ", "-")))
         )
 
         torrent_count = queryset.select().count()
