@@ -12,9 +12,13 @@ stilio
 
 |
 
-.. image:: resources/images/stilio-logo.png
-   :align: center
+.. raw:: html
 
+    <embed>
+        <p align="center">
+            <img src="resources/images/stilio-logo.png">
+        </p>
+    </embed>
 
 Goals
 -----
