@@ -10,6 +10,9 @@ stilio
 .. image:: https://img.shields.io/github/license/seik/stilio
    :target: https://github.com/seik/stilio/blob/master/LICENSE
 
+
+.. image:: resources/images/stilio-logo.png
+
 Goals
 -----
 
