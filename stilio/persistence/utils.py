@@ -1,7 +1,7 @@
 from logging import Logger
 from typing import List
 
-from peewee import IntegrityError
+from peewee import IntegrityError, fn
 
 from stilio.persistence.exceptions import StoringError
 from stilio.persistence.torrents.models import Torrent, File
@@ -21,9 +21,10 @@ def store_metadata(info_hash: bytes, metadata: dict, logger: Logger = None) -> N
         files.append({"path": name, "size": metadata[b"length"]})
 
     try:
-        torrent = Torrent.insert(info_hash=info_hash.hex(), name=name).execute()
-    except IntegrityError:
-        pass
+        torrent = Torrent.insert(info_hash=info_hash.hex(), name=name, search_name=fn.to_tsvector(name)).execute()
+    except IntegrityError as e:
+        logger.exception(e)
+        return
     else:
         for file in files:
             File.insert(path=file["path"], size=file["size"], torrent=torrent).execute()
