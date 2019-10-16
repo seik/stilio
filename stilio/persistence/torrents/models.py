@@ -39,7 +39,7 @@ class Torrent(BaseModel):
     def search_by_name(
             name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
-        queryset = Torrent.select().where(Torrent.search_name.match(name))
+        queryset = Torrent.select().where(Torrent.search_name.match(name, plain=True))
 
         torrent_count = queryset.select().count()
         torrents = queryset.select().limit(limit).offset(offset).execute()
