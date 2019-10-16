@@ -12,7 +12,6 @@ import datetime as dt
 class Torrent(BaseModel):
     info_hash = CharField(max_length=40, unique=True)
     name = CharField(max_length=512)
-    search_name = TSVectorField()
 
     seeders = IntegerField(default=0)
     leechers = IntegerField(default=0)
@@ -43,7 +42,11 @@ class Torrent(BaseModel):
     def search_by_name(
             cls, name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
-        queryset = cls.select().where(Torrent.search_name.match(name, plain=True))
+        queryset = cls.select().where(
+            Torrent.name.contains(name),
+            Torrent.name.contains(name.replace(" ", ".")),
+            Torrent.name.contains(name.replace(" ", "-")),
+        )
 
         torrent_count = queryset.select().count()
         torrents = queryset.select().limit(limit).offset(offset).execute()
