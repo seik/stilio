@@ -40,7 +40,7 @@ class Torrent(BaseModel):
 
     @classmethod
     def search_by_name(
-            cls, name: str, limit=None, offset=None
+        cls, name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
         queryset = cls.select().where(
             Torrent.name.contains(name),
