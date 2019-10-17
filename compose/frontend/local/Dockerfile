@@ -7,17 +7,17 @@ WORKDIR ${ROOT}
 
 COPY . ${ROOT}
 
+RUN apt-get update \
+    && apt-get install -y build-essential
+
+RUN pip install pipenv
 COPY Pipfile .
 COPY Pipfile.lock .
+RUN pipenv install --system --deploy
+RUN rm -rf /Pipfile \
+    && rm -rf /Pipfile.lock
 
-# FIXME remove all this making the crawler only install things it needs from Pipfile
-# break pipfile into crawler/frontend
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential postgresql-server-dev-all \
-    && pip install pipenv \
-    && pipenv lock --requirements > requirements.txt \
-    && pip install -r requirements.txt \
-    && apt-get remove -y build-essential postgresql-server-dev-all \
+RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
 
 ENTRYPOINT ["uvicorn", "stilio.frontend.main:app", "--reload", "--host", "0.0.0.0"]

@@ -1,4 +1,4 @@
-FROM python:3.7-slim
+FROM python:3.7-slim-buster
 
 ENV PYTHONUNBUFFERED=1
 ENV ROOT=/usr/src/app
@@ -10,6 +10,20 @@ COPY stilio/__init__.py stilio/__init__.py
 COPY stilio/crawler stilio/crawler
 COPY stilio/persistence stilio/persistence
 
+RUN apt-get update \
+    # psycopg2 dependencies
+    && apt-get install -y gcc python3-dev musl-dev
+
+RUN pip install pipenv
+COPY Pipfile .
+COPY Pipfile.lock .
+RUN pipenv install --system --deploy
+RUN rm -rf /Pipfile \
+    && rm -rf /Pipfile.lock
+
+RUN apt-get remove -y build-essential \
+    && apt-get -y autoremove
+
 COPY compose/crawler/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
@@ -17,18 +31,5 @@ RUN chmod +x /entrypoint
 COPY compose/crawler/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
-
-COPY Pipfile .
-COPY Pipfile.lock .
-
-# FIXME remove all this making the crawler only install things it needs from Pipfile
-# break pipfile into crawler/frontend
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential postgresql-server-dev-all \
-    && pip install pipenv \
-    && pipenv lock --requirements > requirements.txt \
-    && pip install -r requirements.txt \
-    && apt-get remove -y build-essential postgresql-server-dev-all \
-    && apt-get -y autoremove
 
 ENTRYPOINT ["/entrypoint"]
