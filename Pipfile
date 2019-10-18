@@ -22,6 +22,7 @@ coverage = "*"
 pytest = "*"
 sphinx = "*"
 sphinx-rtd-theme = "*"
+faker = "*"
 
 [requires]
 python_version = "3.7"

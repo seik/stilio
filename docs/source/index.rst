@@ -15,4 +15,5 @@ Contents
 --------
 
 * :ref:`Installation <installation>`
+* :ref:`Development <development>`
 * :ref:`Database <database>`

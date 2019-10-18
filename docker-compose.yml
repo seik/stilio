@@ -42,6 +42,7 @@ services:
         max-size: "200k"
     env_file:
       - ./.env
+    command: gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 stilio.frontend.main:app
 
   postgres:
     build:

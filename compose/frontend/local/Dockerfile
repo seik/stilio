@@ -13,11 +13,9 @@ RUN apt-get update \
 RUN pip install pipenv
 COPY Pipfile .
 COPY Pipfile.lock .
-RUN pipenv install --system --deploy
+RUN pipenv install --system --dev
 RUN rm -rf /Pipfile \
     && rm -rf /Pipfile.lock
 
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
-
-ENTRYPOINT ["uvicorn", "stilio.frontend.main:app", "--reload", "--host", "0.0.0.0"]

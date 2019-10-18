@@ -17,7 +17,7 @@ RUN apt-get update \
 RUN pip install pipenv
 COPY Pipfile .
 COPY Pipfile.lock .
-RUN pipenv install --system --deploy
+RUN pipenv install --system
 RUN rm -rf /Pipfile \
     && rm -rf /Pipfile.lock
 

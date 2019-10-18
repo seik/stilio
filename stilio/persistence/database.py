@@ -8,7 +8,7 @@ from stilio.config import (
     DATABASE_PASSWORD,
 )
 
-database = PostgresqlDatabase(
+db = PostgresqlDatabase(
     DATABASE_NAME,
     host=DATABASE_HOST,
     port=DATABASE_PORT,
@@ -20,11 +20,11 @@ database = PostgresqlDatabase(
 
 class BaseModel(Model):
     class Meta:
-        database = database
+        database = db
 
 
+@db.connection_context()
 def init() -> None:
     from stilio.persistence.constants import MODELS
 
-    with database.connection_context():
-        database.create_tables(MODELS)
+    db.create_tables(MODELS)
