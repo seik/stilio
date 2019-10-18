@@ -48,7 +48,13 @@ class Torrent(BaseModel):
         )
 
         torrent_count = queryset.select().count()
-        torrents = queryset.select().limit(limit).offset(offset).execute()
+        torrents = (
+            queryset.select()
+            .order_by(Torrent.added_at.desc())
+            .limit(limit)
+            .offset(offset)
+            .execute()
+        )
 
         return torrents, torrent_count
 
