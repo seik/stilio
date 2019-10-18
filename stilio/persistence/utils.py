@@ -1,4 +1,3 @@
-from logging import Logger
 from typing import List
 
 from peewee import IntegrityError
@@ -7,7 +6,7 @@ from stilio.persistence.exceptions import StoringError
 from stilio.persistence.torrents.models import Torrent, File
 
 
-def store_metadata(info_hash: bytes, metadata: dict, logger: Logger = None) -> None:
+def store_metadata(info_hash: bytes, metadata: dict, logger = None) -> None:
     name = metadata[b"name"].decode("utf-8")
 
     files: List[dict] = []

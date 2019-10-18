@@ -76,7 +76,7 @@ class CrawlingService(DHTDispatcher):
             nid=dht_utils.generate_neighbor_nid(self.node.nid, nid),
             address=address,
         )
-        logger.debug(f"On announce peer, infohash {info_hash}")
+        logger.debug(f"On announce peer, infohash {info_hash.hex()}")
 
         if not Torrent.exists(info_hash):
             self.metadata_fetcher.fetch(info_hash, address)
@@ -102,7 +102,7 @@ class CrawlingService(DHTDispatcher):
         self.rpc.respond_get_peers(
             tid=tid, info_hash=info_hash, nid=self.node.nid, address=address
         )
-        logger.debug(f"On get peers, infohash {info_hash}")
+        logger.debug(f"On get peers, infohash {info_hash.hex()}")
 
     def on_metadata_result(self, info_hash: bytes, metadata: bytes) -> None:
         try:
