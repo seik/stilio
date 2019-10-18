@@ -12,7 +12,7 @@ from stilio.persistence.torrents.models import Torrent, File
 def create_fake_data() -> None:
     fake = Faker()
     for i in range(1_000):
-        torrent_id = Torrent.insert(info_hash=uuid4(), name=fake.text()[20]).execute()
+        torrent_id = Torrent.insert(info_hash=uuid4(), name=fake.text()[10:]).execute()
         for j in range(10):
             File.insert(
                 path="path", size=randint(1, 10000), torrent=torrent_id
