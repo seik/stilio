@@ -6,12 +6,23 @@ from starlette.templating import Jinja2Templates
 
 from stilio.frontend import settings as project_settings
 from stilio.frontend.pagination import get_pages
+from stilio.persistence.database import db
 from stilio.persistence.torrents.models import Torrent
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="stilio/frontend/static"), name="static")
 templates = Jinja2Templates(directory="stilio/frontend/templates")
+
+
+@app.on_event("startup")
+def startup():
+    db.connect()
+
+
+@app.on_event("shutdown")
+def shutdown():
+    db.disconnect()
 
 
 @app.get("/")
