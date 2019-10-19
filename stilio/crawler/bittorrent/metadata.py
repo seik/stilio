@@ -2,6 +2,7 @@ import asyncio
 import hashlib
 import logging
 import math
+from asyncio import StreamReader, StreamWriter
 from typing import Optional, Callable, Dict, Tuple
 
 from stilio.config import (
@@ -27,18 +28,18 @@ PeerAddress = Tuple[str, int]
 
 class MetadataWorker:
     def __init__(
-        self,
-        info_hash: bytes,
-        peer_address: PeerAddress,
-        max_metadata_size: int = 10_000_000,
+            self,
+            info_hash: bytes,
+            peer_address: PeerAddress,
+            max_metadata_size: int = 10_000_000,
     ):
         self._peer_id = get_random_peer_id()
         self._peer_address = peer_address
 
         self._info_hash = info_hash
 
-        self._reader = None
-        self._writer = None
+        self._reader: Optional[StreamReader] = None
+        self._writer: Optional[StreamWriter] = None
 
         self._handshaked = False
         self._ut_metadata = int()
@@ -107,7 +108,7 @@ class MetadataWorker:
             metadata_piece = message[i:]
 
             self._metadata[
-                piece * 2 ** 14 : piece * 2 ** 14 + len(metadata_piece)
+            piece * 2 ** 14: piece * 2 ** 14 + len(metadata_piece)
             ] = metadata_piece
             self._metadata_received += len(metadata_piece)
 
@@ -142,7 +143,8 @@ class MetadataWorker:
 
     def _write_message(self, message: bytes):
         length = len(message).to_bytes(4, "big")
-        self._writer.write(length + message)
+        if self._writer:
+            self._writer.write(length + message)
 
     async def work(self):
         event_loop = asyncio.get_event_loop()
@@ -186,7 +188,7 @@ class MetadataWorker:
 
 
 async def fetch_metadata(
-    info_hash: bytes, peer_address: PeerAddress, max_metadata_size: int
+        info_hash: bytes, peer_address: PeerAddress, max_metadata_size: int
 ) -> Optional[bytes]:
     try:
         result = await asyncio.wait_for(
@@ -201,10 +203,10 @@ async def fetch_metadata(
 
 class MetadataFetcher:
     def __init__(
-        self,
-        on_metadata_result: Optional[
-            Callable[[bytes], Optional[Callable[[bytes, bytes], None]]]
-        ] = None,
+            self,
+            on_metadata_result: Optional[
+                Callable[[bytes, bytes], None]
+            ] = None,
     ):
         self._active_workers: Dict[bytes, asyncio.Future] = dict()
 
@@ -223,7 +225,7 @@ class MetadataFetcher:
             self.on_metadata_result(info_hash, metadata)
 
     def _on_child_task_done(
-        self, parent_task: asyncio.Future, child_task: asyncio.Future
+            self, parent_task: asyncio.Future, child_task: asyncio.Future
     ):
         parent_task.child_count -= 1  # type: ignore
         try:
@@ -240,10 +242,10 @@ class MetadataFetcher:
             parent_task.set_result(None)
 
     def fetch(
-        self,
-        info_hash: bytes,
-        peer_address: PeerAddress,
-        max_metadata_size: int = 10_000_000,
+            self,
+            info_hash: bytes,
+            peer_address: PeerAddress,
+            max_metadata_size: int = 10_000_000,
     ):
         event_loop = asyncio.get_event_loop()
 
@@ -261,8 +263,8 @@ class MetadataFetcher:
             return
 
         if (
-            parent_future.child_count  # type: ignore
-            >= CRAWLER_METADATA_MAX_SIMULTANEOUS_WORKERS_PER_INFO_HASH
+                parent_future.child_count  # type: ignore
+                >= CRAWLER_METADATA_MAX_SIMULTANEOUS_WORKERS_PER_INFO_HASH
         ):
             return
 
