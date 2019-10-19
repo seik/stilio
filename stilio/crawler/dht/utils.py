@@ -13,7 +13,7 @@ def decode_nodes(encoded_nodes: List[bytes]) -> List[Node]:
     for i in range(0, len(encoded_nodes), 26):
         bytes_node = cast(bytes, encoded_nodes[i : i + 26])
 
-        nid = cast(bytes, bytes_node[:20])
+        nid = bytes_node[:20]
         address = inet_ntoa(bytes_node[20:24])
         port = int.from_bytes(bytes_node[24:], "big")
 

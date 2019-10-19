@@ -1,8 +1,6 @@
 language: python
-
 python:
   - "3.7"
-  - "3.8"
 cache:
   directories:
     - $PIP_CACHE_DIR
@@ -11,13 +9,10 @@ env:
   global:
     - PIP_CACHE_DIR=$HOME/.cache/pip
     - PIPENV_CACHE_DIR=$HOME/.cache/pipenv
-    - PIPENV_VENV_IN_PROJECT=1
-    - PIPENV_IGNORE_VIRTUALENVS=1
 install:
   - pip install git+https://github.com/pypa/pipenv.git
-  - pipenv install --dev
-jobs:
-  include:
-    - script: pipenv run black .
-    - script: pipenv run mypy
-    - script: pipenv run pytest
+  - pipenv install --dev --system
+script:
+  - black --check .
+  - mypy .
+  - pytest
