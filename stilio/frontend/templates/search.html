@@ -14,27 +14,28 @@
             </form>
             <p>Displaying {{ count }} related torrents for "{{ query }}"</p>
         </div>
-        <div class="torrent-results">
+        <table class="table" id="table-results">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Added</th>
+            </tr>
+            </thead>
             {% for torrent in torrents %}
-                <div class="box">
-                    <div class="torrent-info">
-                        <p class="torrent-name-list has-text-black">{{ torrent.name }}</p>
-                        <div class="torrent-extra-info">
-                            <p class="torrent-date">
-                                <i class="far fa-clock"></i>{{ torrent.added_at.strftime("%d-%m-%y %H:%M") }}
-                            </p>
-                            <p>{{ torrent.size|filesizeformat }}</p>
-                        </div>
-                    </div>
-                    <div class="download-elements">
-                        <a href="//itorrents.org/torrent/{{ torrent.info_hash }}.torrent"><i
-                                class="fas fa-file"></i></a>
-                        <a href="magnet:?xt=urn:btih:{{ torrent.info_hash }}&dn={{ torrent.name }}"><i
-                                class="fas fa-magnet"></i></a>
-                    </div>
-                </div>
+                <tbody>
+                <tr>
+                    <td> {{ torrent.name }} </td>
+                    <td> {{ torrent.size|filesizeformat }} </td>
+                    <td> {{ torrent.added_at.strftime("%d-%m-%y %H:%M") }} </td>
+                </tr>
+                </tbody>
             {% endfor %}
+        </table>
+        <div class="torrent-results">
+
         </div>
+
         {% if pages|length > 1 %}
             <nav class="pagination is-centered" role="navigation"
                  aria-label="pagination">

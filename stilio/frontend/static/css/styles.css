@@ -49,15 +49,6 @@
     padding: 20px;
 }
 
-.content-results {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.torrent-name-list {
-    word-break: break-all;
-}
-
 .search-top-section {
     margin-bottom: 24px;
 }
@@ -99,11 +90,6 @@
     }
 }
 
-.torrent-info {
-    display: flex;
-    flex-direction: column;
-}
-
 .torrent-extra-info {
     display: flex;
     margin-top: 10px;
@@ -121,8 +107,4 @@
 .download-elements > :first-child {
     margin-right: 10px;
     margin-left: 14px;
-}
-
-.torrent-date > :first-child {
-    margin-right: 6px;
 }
