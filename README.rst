@@ -27,6 +27,19 @@ Goals
 -  Fast. But ***never*** trade code readability for speed.
 -  Easy set up.
 
+Quickstart
+~~~~~~~~~~
+
+A `docker-compose </docker-compose.yml>`_ file is included to allow a fast and easy set up.
+
+::
+
+    docker-compose up
+
+Note that a it's recommended to run the frontend and database separated from the
+crawler since the last one generates a lot of traffic and can make a poor experience
+for the users. You can read a guide about how to do this `here <https://stilio.readthedocs.io/en/latest/stilio/guides.html>`_.
+
 FAQ
 ~~~
 
