@@ -5,6 +5,8 @@ ENV ROOT=/usr/src/app
 
 WORKDIR ${ROOT}
 
+COPY docker/crawler/entrypoint entrypoint
+
 COPY stilio/config.py stilio/config.py
 COPY stilio/__init__.py stilio/__init__.py
 COPY stilio/crawler stilio/crawler
