@@ -24,11 +24,11 @@ RUN rm -rf /Pipfile \
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
 
-COPY compose/crawler/entrypoint /entrypoint
+COPY docker/crawler/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
-COPY compose/crawler/start /start
+COPY docker/crawler/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 

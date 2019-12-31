@@ -9,7 +9,7 @@ services:
   crawler:
     build:
       context: .
-      dockerfile: compose/crawler/Dockerfile
+      dockerfile: docker/crawler/Dockerfile
     depends_on:
       - postgres
     network_mode: "host"
@@ -24,12 +24,11 @@ services:
       - ./.env
     environment:
       POSTGRES_HOST: "localhost"
-    command: /start
 
   frontend:
     build:
       context: .
-      dockerfile: compose/frontend/production/Dockerfile
+      dockerfile: docker/frontend/production/Dockerfile
     depends_on:
       - postgres
       - crawler
@@ -42,12 +41,11 @@ services:
         max-size: "200k"
     env_file:
       - ./.env
-    command: gunicorn -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 stilio.frontend.main:app
 
   postgres:
     build:
       context: .
-      dockerfile: ./compose/persistence/Dockerfile
+      dockerfile: docker/persistence/Dockerfile
     image: stilio_production_postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data

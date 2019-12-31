@@ -22,3 +22,5 @@ RUN rm -rf /Pipfile \
 
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
+
+ENTRYPOINT ["/entrypoint"]
