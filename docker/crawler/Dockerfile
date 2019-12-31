@@ -27,8 +27,4 @@ RUN apt-get remove -y build-essential \
 COPY docker/crawler/entrypoint.sh entrypoint.sh
 RUN sed -i 's/\r$//g' entrypoint.sh
 
-COPY docker/crawler/start /start
-RUN sed -i 's/\r$//g' /start
-RUN chmod +x /start
-
 ENTRYPOINT ["bash", "entrypoint.sh"]
