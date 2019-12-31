@@ -5,7 +5,7 @@ ENV ROOT=/usr/src/app
 
 WORKDIR ${ROOT}
 
-COPY docker/crawler/entrypoint entrypoint
+COPY docker/crawler/entrypoint.sh entrypoint.sh
 
 COPY stilio/config.py stilio/config.py
 COPY stilio/__init__.py stilio/__init__.py
@@ -34,4 +34,4 @@ COPY docker/crawler/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
-ENTRYPOINT ["/entrypoint"]
+ENTRYPOINT ["bash", "entrypoint.sh"]

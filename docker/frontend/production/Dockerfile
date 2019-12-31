@@ -5,7 +5,7 @@ ENV ROOT=/usr/src/app
 
 WORKDIR ${ROOT}
 
-COPY docker/frontend/production/entrypoint entrypoint
+COPY docker/frontend/production/entrypoint.sh entrypoint.sh
 
 COPY stilio/config.py stilio/config.py
 COPY stilio/__init__.py stilio/__init__.py
@@ -25,4 +25,4 @@ RUN rm -rf /Pipfile \
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
 
-ENTRYPOINT ["./entrypoint"]
+ENTRYPOINT ["bash", "entrypoint.sh"]
