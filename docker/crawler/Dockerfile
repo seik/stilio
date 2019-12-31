@@ -5,8 +5,6 @@ ENV ROOT=/usr/src/app
 
 WORKDIR ${ROOT}
 
-COPY docker/crawler/entrypoint.sh entrypoint.sh
-
 COPY stilio/config.py stilio/config.py
 COPY stilio/__init__.py stilio/__init__.py
 COPY stilio/crawler stilio/crawler
@@ -26,9 +24,8 @@ RUN rm -rf /Pipfile \
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
 
-COPY docker/crawler/entrypoint /entrypoint
-RUN sed -i 's/\r$//g' /entrypoint
-RUN chmod +x /entrypoint
+COPY docker/crawler/entrypoint.sh entrypoint.sh
+RUN sed -i 's/\r$//g' /entrypoint.sh
 
 COPY docker/crawler/start /start
 RUN sed -i 's/\r$//g' /start
