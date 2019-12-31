@@ -28,3 +28,5 @@ COPY docker/crawler/entrypoint.sh entrypoint.sh
 RUN sed -i 's/\r$//g' entrypoint.sh
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
+
+CMD ["python", "-m", "stilio.crawler.main"]

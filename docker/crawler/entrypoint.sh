@@ -34,4 +34,4 @@ until postgres_ready; do
 done
 >&2 echo 'PostgreSQL is available'
 
-python -m stilio.crawler.main
+exec "$@"

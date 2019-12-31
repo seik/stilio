@@ -25,7 +25,4 @@ RUN rm -rf /Pipfile \
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
 
-COPY docker/crawler/entrypoint.sh entrypoint.sh
-RUN sed -i 's/\r$//g' entrypoint.sh
-
-ENTRYPOINT ["bash", "entrypoint.sh"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000", "stilio.frontend.main:app"]
