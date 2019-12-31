@@ -5,8 +5,6 @@ ENV ROOT=/usr/src/app
 
 WORKDIR ${ROOT}
 
-COPY docker/frontend/production/entrypoint.sh entrypoint.sh
-
 COPY stilio/config.py stilio/config.py
 COPY stilio/__init__.py stilio/__init__.py
 COPY stilio/frontend stilio/frontend
