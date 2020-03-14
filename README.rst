@@ -24,7 +24,7 @@ Goals
 -----
 
 -  Completely written in python.
--  Fast. But ***never*** trade code readability for speed.
+-  Fast. But **never** trade code readability for speed.
 -  Easy set up.
 
 Quickstart
