@@ -13,12 +13,13 @@ COPY stilio/persistence stilio/persistence
 RUN apt-get update \
     && apt-get install -y build-essential
 
-RUN pip install pipenv
-COPY Pipfile .
-COPY Pipfile.lock .
-RUN pipenv install --system
-RUN rm -rf /Pipfile \
-    && rm -rf /Pipfile.lock
+RUN pip install poetry
+COPY pyproject.toml .
+COPY poetry.lock .
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-interaction
+RUN rm -rf /pyproject.toml \
+    && rm -rf /poetry.lock
 
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove

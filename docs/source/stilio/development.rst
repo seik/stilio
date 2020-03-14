@@ -31,7 +31,7 @@ execute this command::
 Some notes
 ----------
 
-If you install a new package using ``pipenv`` you will need to trigger a
+If you install a new package using ``poetry`` you will need to trigger a
 build to install the new package in the container::
 
     docker-compose -f dev.yml build
