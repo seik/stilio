@@ -13,10 +13,11 @@ def create_fake_data() -> None:
     fake = Faker()
     for i in range(1_000):
         torrent_id = Torrent.insert(info_hash=uuid4(), name=fake.text()[10:]).execute()
-        for j in range(10):
+        for j in range(randint(1, 10)):
             File.insert(
                 path="path", size=randint(1, 10000), torrent=torrent_id
             ).execute()
+        print(f"Added torrent with ID {torrent_id} to the database")
 
 
 if __name__ == "__main__":
