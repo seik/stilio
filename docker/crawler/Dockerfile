@@ -18,7 +18,7 @@ RUN pip install poetry
 COPY pyproject.toml .
 COPY poetry.lock .
 RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction
+RUN poetry install --no-interaction --no-dev
 RUN rm -rf /pyproject.toml \
     && rm -rf /poetry.lock
 
