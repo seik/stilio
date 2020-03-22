@@ -13,7 +13,6 @@ services:
       - "8000:8000"
     volumes:
       - .:/usr/src/app
-    command: uvicorn stilio.frontend.main:app --reload --host 0.0.0.0
     env_file:
       - ./.env
 
