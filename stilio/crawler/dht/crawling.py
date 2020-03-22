@@ -48,10 +48,10 @@ class CrawlingService(DHTDispatcher):
         for address in CRAWLER_BOOTSTRAP_NODES:
             self.rpc.find_node(self.node.nid, address=address)
 
-    def _make_neighbours(self) -> None:
+    def _make_neighbors(self) -> None:
         for node in self.routing_table.nodes:
-            neighbour_nid = dht_utils.generate_neighbor_nid(self.node.nid, node.nid)
-            self.rpc.find_node(neighbour_nid, address=(node.address, node.port))
+            neighbor_nid = dht_utils.generate_neighbor_nid(self.node.nid, node.nid)
+            self.rpc.find_node(neighbor_nid, address=(node.address, node.port))
 
     async def _tick_periodically(self) -> None:
         while self._running:
@@ -60,12 +60,12 @@ class CrawlingService(DHTDispatcher):
             if not self.routing_table.nodes:
                 await self._bootstrap()
 
-            self._make_neighbours()
+            self._make_neighbors()
             self.routing_table.nodes.clear()
 
             self.routing_table.max_size = self.routing_table.max_size * 101 // 100
 
-            logging.debug(f"Max number of neighbours is {self.routing_table.max_size}")
+            logging.debug(f"Max number of neighbors is {self.routing_table.max_size}")
             logger.info(f"Active tasks: {len(asyncio.Task.all_tasks())}")
 
     def on_announce_peer(
@@ -84,7 +84,7 @@ class CrawlingService(DHTDispatcher):
     def on_bandwidth_exhausted(self):
         if self.routing_table.max_size < 200:
             logging.warning(
-                "Max number of neighbours is low (< 200) and congestion persists, please "
+                "Max number of neighbors is low (< 200) and congestion persists, please "
                 "check your network if this message still occurs"
             )
         else:

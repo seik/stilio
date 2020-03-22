@@ -23,11 +23,11 @@ def decode_nodes(encoded_nodes: List[bytes]) -> List[Node]:
     return decoded_nodes
 
 
-def generate_neighbor_nid(local_nid: bytes, neighbour_nid: bytes) -> bytes:
+def generate_neighbor_nid(local_nid: bytes, neighbor_nid: bytes) -> bytes:
     """
     Generates a fake node id adding the first 15 bytes of the local node and
     the first 5 bytes of the remote node.
 
     This makes the remote node believe we are close to it in the DHT.
     """
-    return neighbour_nid[:15] + local_nid[:5]
+    return neighbor_nid[:15] + local_nid[:5]
