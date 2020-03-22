@@ -32,6 +32,7 @@
 .small-logo-search {
     height: 56px;
     width: 56px;
+    min-width: 56px;
 }
 
 .search-nav {
