@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import Callable, Tuple, Optional
+from typing import Callable, Optional, Tuple
 
-from stilio.crawler.bittorrent.bencoding import BencoderError, KRPCTypes, encode, decode
+from stilio.crawler.bittorrent.bencoding import BencoderError, KRPCTypes, decode, encode
 from stilio.crawler.dht.constants import TOKEN_LENGTH
-from stilio.crawler.dht.network import UDPNode
 from stilio.crawler.dht.node import Node
+from stilio.crawler.dht.udp import UDPNode
 
 
 class RPC:

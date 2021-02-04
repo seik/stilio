@@ -4,9 +4,9 @@ import asyncio
 import errno
 import logging
 from asyncio.transports import DatagramTransport
-from typing import Callable, Tuple, Optional
+from typing import Callable, Optional, Tuple
 
-from stilio.config import CRAWLER_DEBUG_LEVEL, CRAWLER_ADDRESS, CRAWLER_PORT
+from stilio.config import CRAWLER_ADDRESS, CRAWLER_DEBUG_LEVEL, CRAWLER_PORT
 
 logging.basicConfig(level=CRAWLER_DEBUG_LEVEL)
 logger = logging.getLogger(__name__)

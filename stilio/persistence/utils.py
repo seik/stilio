@@ -3,7 +3,7 @@ from typing import List
 from peewee import IntegrityError
 
 from stilio.persistence.exceptions import StoringError
-from stilio.persistence.torrents.models import Torrent, File
+from stilio.persistence.torrents.models import File, Torrent
 
 
 def store_metadata(info_hash: bytes, metadata: dict, logger=None) -> None:

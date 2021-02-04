@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime as dt
 from typing import List
 
-from peewee import IntegerField, CharField, DateTimeField, Tuple, ForeignKeyField
+from peewee import CharField, DateTimeField, ForeignKeyField, IntegerField, Tuple
 
 from stilio.persistence.database import BaseModel
 

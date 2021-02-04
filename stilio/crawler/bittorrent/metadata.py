@@ -3,12 +3,12 @@ import hashlib
 import logging
 import math
 from asyncio import StreamReader, StreamWriter
-from typing import Optional, Callable, Dict, Tuple
+from typing import Callable, Dict, Optional, Tuple
 
 from stilio.config import (
     CRAWLER_DEBUG_LEVEL,
-    CRAWLER_METADATA_MAX_SIMULTANEOUS_WORKERS_PER_INFO_HASH,
     CRAWLER_METADATA_FETCH_TIMEOUT,
+    CRAWLER_METADATA_MAX_SIMULTANEOUS_WORKERS_PER_INFO_HASH,
 )
 from stilio.crawler.bittorrent import utils as bt_utils
 from stilio.crawler.bittorrent.bencoding import BencoderError, decode, decode2, encode

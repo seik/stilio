@@ -5,7 +5,7 @@ from faker import Faker
 
 from stilio.persistence import database
 from stilio.persistence.database import db
-from stilio.persistence.torrents.models import Torrent, File
+from stilio.persistence.torrents.models import File, Torrent
 
 
 @db.connection_context()

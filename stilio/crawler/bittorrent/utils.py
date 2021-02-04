@@ -1,6 +1,6 @@
 from random import random
 
-from stilio.crawler.bittorrent.constants import PEER_ID_PREFIX, BT_PROTOCOL_PREFIX
+from stilio.crawler.bittorrent.constants import BT_PROTOCOL_PREFIX, PEER_ID_PREFIX
 
 
 def get_random_peer_id() -> bytes:

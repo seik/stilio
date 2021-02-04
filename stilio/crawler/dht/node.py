@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from ipaddress import ip_address
 import os
+from ipaddress import ip_address
 
 
 class Node:

@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Tuple, List
+from typing import List, Tuple
 
 from stilio.config import (
-    CRAWLER_DEBUG_LEVEL,
     CRAWLER_ADDRESS,
-    CRAWLER_PORT,
     CRAWLER_BOOTSTRAP_NODES,
+    CRAWLER_DEBUG_LEVEL,
+    CRAWLER_PORT,
 )
-from stilio.crawler.bittorrent.bencoding import decode, BencoderError
+from stilio.crawler.bittorrent.bencoding import BencoderError, decode
 from stilio.crawler.bittorrent.metadata import MetadataFetcher
 from stilio.crawler.dht import utils as dht_utils
 from stilio.crawler.dht.dispatcher import DHTDispatcher
