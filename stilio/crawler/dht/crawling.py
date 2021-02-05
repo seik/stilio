@@ -27,6 +27,11 @@ logger = logging.getLogger(__name__)
 
 class CrawlingService(DHTDispatcher):
     def __init__(self, max_neighbors: int = 500, tick_interval: int = 1):
+        """Args:
+
+            max_neighbors: maximum number of neighbors in the crawling service 
+            tick_interval: number of seconds between every attempt to get new neighbors 
+        """
         self.node = Node.create_random(CRAWLER_ADDRESS, CRAWLER_PORT)
 
         self.rpc: RPC = RPC()
@@ -45,6 +50,8 @@ class CrawlingService(DHTDispatcher):
         super().__init__(self.rpc)
 
     async def _bootstrap(self) -> None:
+        """Bootstrap the crawler with some default nodes
+        """
         for address in CRAWLER_BOOTSTRAP_NODES:
             self.rpc.find_node(self.node.nid, address=address)
 
@@ -71,6 +78,7 @@ class CrawlingService(DHTDispatcher):
     def on_announce_peer(
         self, tid: bytes, nid: bytes, info_hash: bytes, address: Tuple[str, int]
     ) -> None:
+        """Peer found, respond with a fake node id"""
         self.rpc.respond_announce_peer(
             tid=tid,
             nid=dht_utils.generate_neighbor_nid(self.node.nid, nid),
@@ -82,6 +90,9 @@ class CrawlingService(DHTDispatcher):
             self.metadata_fetcher.fetch(info_hash, address)
 
     def on_bandwidth_exhausted(self):
+        """Bandwidth is being exhausted, reduce the number of nodes or warn the user
+        if this number is already too low
+        """
         if self.routing_table.max_size < 200:
             logging.warning(
                 "Max number of neighbors is low (< 200) and congestion persists, please "
@@ -91,6 +102,9 @@ class CrawlingService(DHTDispatcher):
             self.routing_table.max_size = self.routing_table.max_size * 9 // 10
 
     def on_find_node(self, nodes: List[Node]) -> None:
+        """Found a node, if the table is not full and the node is not in the routing
+        table already, add it
+        """
         if not self.routing_table.is_full:
             nodes = [node for node in nodes if self.node != node and node.is_valid]
             for node in nodes:
@@ -105,6 +119,7 @@ class CrawlingService(DHTDispatcher):
         logger.debug(f"On get peers, infohash {info_hash.hex()}")
 
     def on_metadata_result(self, info_hash: bytes, metadata: bytes) -> None:
+        """Received metadata (aka torrent info), decode it and store in db"""
         try:
             metadata_decoded = decode(metadata)
             db_utils.store_metadata(info_hash, metadata_decoded, logger)
