@@ -3,7 +3,14 @@ from __future__ import annotations
 import datetime as dt
 from typing import List
 
-from peewee import CharField, DateTimeField, ForeignKeyField, IntegerField, Tuple
+from peewee import (
+    BigIntegerField,
+    CharField,
+    DateTimeField,
+    ForeignKeyField,
+    IntegerField,
+    Tuple,
+)
 
 from stilio.persistence.database import BaseModel
 
@@ -63,7 +70,7 @@ class File(BaseModel):
     torrent = ForeignKeyField(Torrent, backref="files")
 
     path = CharField(max_length=512)
-    size = IntegerField()
+    size = BigIntegerField()
 
     def __str__(self):
         return self.path
