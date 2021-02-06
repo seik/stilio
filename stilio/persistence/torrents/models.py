@@ -10,6 +10,7 @@ from peewee import (
     ForeignKeyField,
     IntegerField,
 )
+from playhouse.postgres_ext import Match
 
 from stilio.persistence.database import BaseModel
 
@@ -47,11 +48,11 @@ class Torrent(BaseModel):
     def search_by_name(
         cls, name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
-        queryset = cls.select().where(
-            (Torrent.name.contains(name))
-            | (Torrent.name.contains(name.replace(" ", ".")))
-            | (Torrent.name.contains(name.replace(" ", "-")))
-        )
+        # Remove characters that are not considered a "letter"
+        cleaned_name = "".join([letter for letter in name if letter.isalpha()])
+        # Every word is required so &
+        cleaned_name = cleaned_name.replace(" ", " & ")
+        queryset = cls.select().where(Match(Torrent.name, cleaned_name))
 
         torrent_count = queryset.select().count()
         torrents = (
