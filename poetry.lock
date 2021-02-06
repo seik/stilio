@@ -339,6 +339,22 @@ aiopg = ["aiopg (>=0.14.0)"]
 develop = ["pylint", "wheel", "aiomysql", "aiopg", "psycopg2"]
 
 [[package]]
+name = "peewee-migrate"
+version = "1.4.0"
+description = "A simple migration engine for Peewee ORM"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+click = ">=6.7"
+peewee = ">=3.3.3"
+
+[package.extras]
+build = ["bump2version", "twine", "wheel"]
+tests = ["pytest", "psycopg2-binary"]
+
+[[package]]
 name = "pluggy"
 version = "0.13.1"
 description = "plugin and hook calling mechanisms for python"
@@ -690,7 +706,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "db34ff7c8707f9a3f1eee13e4f78fcb1c89ce45dd45a2e41a07c59783bb3bb84"
+content-hash = "6a026d9836a0f40adc1dd52887fe5088b56b873c2caeb04b72db4d007d935430"
 
 [metadata.files]
 aiofiles = [
@@ -900,6 +916,10 @@ peewee = [
 peewee-async = [
     {file = "peewee-async-0.7.0.tar.gz", hash = "sha256:057f4a73214f50c39b7db1999f41401a359f6b12bcf0161322077c0dd8d17336"},
     {file = "peewee_async-0.7.0-py3-none-any.whl", hash = "sha256:a882ad8e7d8f9f2b88d54bdb59a2cdbc2d5653ddf8d307e2abc1b3a0e2dc5ac6"},
+]
+peewee-migrate = [
+    {file = "peewee-migrate-1.4.0.tar.gz", hash = "sha256:a4e14d28cacffea82263bbd0a1224e3da94f1c2dead6f1c67c719073e773a188"},
+    {file = "peewee_migrate-1.4.0-py3-none-any.whl", hash = "sha256:4f382ebefe351ec645f2a4a3711400f1d799d0e4587d37aae8a820ebae2df299"},
 ]
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
