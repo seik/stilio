@@ -22,7 +22,7 @@ def startup():
 
 @app.on_event("shutdown")
 def shutdown():
-    db.disconnect()
+    db.close()
 
 
 @app.get("/")
