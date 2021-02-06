@@ -1,4 +1,4 @@
-FROM postgres:12.0
+FROM postgres:13.1
 
 COPY ./docker/persistence/maintenance /usr/local/bin/maintenance
 RUN chmod +x /usr/local/bin/maintenance/*
