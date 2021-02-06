@@ -13,8 +13,6 @@ services:
     depends_on:
       - postgres
     network_mode: "host"
-    ports:
-      - "6881:6881"
     logging:
       driver: "json-file"
       options:
