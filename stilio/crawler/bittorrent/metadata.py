@@ -171,7 +171,9 @@ class MetadataWorker:
                 length = int.from_bytes(buffer, "big")
                 message = await self._reader.readexactly(length)
                 self._on_message(message)
-
+        except ConnectionRefusedError:
+            # If connection is refused just ignore it
+            pass
         except Exception as e:
             logger.debug(
                 f"There was an error retrieving metadata for {self._info_hash.hex()} from peer {self._peer_address}."
