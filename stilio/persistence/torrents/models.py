@@ -49,9 +49,10 @@ class Torrent(BaseModel):
         cls, name: str, limit=None, offset=None
     ) -> Tuple[List["Torrent"], int]:
         # Remove characters that are not considered a "letter"
-        cleaned_name = "".join([letter for letter in name if letter.isalpha()])
+        cleaned_name = "".join([letter for letter in name if letter.isalpha() or " "])
         # Every word is required so &
         cleaned_name = cleaned_name.replace(" ", " & ")
+        print(cleaned_name)
         queryset = cls.select().where(Match(Torrent.name, cleaned_name))
 
         torrent_count = queryset.select().count()
