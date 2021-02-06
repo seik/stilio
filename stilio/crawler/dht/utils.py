@@ -1,6 +1,6 @@
 import logging
 from socket import inet_ntoa
-from typing import List, cast
+from typing import List
 
 from stilio.config import CRAWLER_DEBUG_LEVEL
 from stilio.crawler.dht.node import Node
@@ -15,7 +15,7 @@ def decode_nodes(encoded_nodes: bytes) -> List[Node]:
     """
     decoded_nodes = []
     for i in range(0, len(encoded_nodes), 26):
-        bytes_node = cast(bytes, encoded_nodes[i : i + 26])
+        bytes_node = encoded_nodes[i : i + 26]
 
         nid = bytes_node[:20]
 
