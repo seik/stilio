@@ -17,12 +17,13 @@ templates = Jinja2Templates(directory="stilio/frontend/templates")
 
 @app.on_event("startup")
 def startup():
-    db.connect()
+    db.connect(reuse_if_open=True)
 
 
 @app.on_event("shutdown")
 def shutdown():
-    db.close()
+    if not db.is_closed():
+        db.close()
 
 
 @app.get("/")
