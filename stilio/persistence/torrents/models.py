@@ -52,7 +52,6 @@ class Torrent(BaseModel):
         cleaned_name = "".join([letter for letter in name if letter.isalpha() or " "])
         # Every word is required so &
         cleaned_name = cleaned_name.replace(" ", " & ")
-        print(cleaned_name)
         queryset = cls.select().where(Match(Torrent.name, cleaned_name))
 
         torrent_count = queryset.select().count()
