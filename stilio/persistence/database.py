@@ -47,6 +47,7 @@ class BaseModel(Model):
 def init() -> None:
     from stilio.persistence.constants import MODELS
 
-    db.connect()
+    db.connect(reuse_if_open=True)
     db.create_tables(MODELS)
-    db.close()
+    if not db.is_closed():
+        db.close()
