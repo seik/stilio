@@ -1,6 +1,7 @@
 from typing import List
 
 from peewee import IntegrityError
+from playhouse.postgres_ext import fn
 
 from stilio.persistence.exceptions import StoringError
 from stilio.persistence.torrents.models import File, Torrent
@@ -20,7 +21,9 @@ def store_metadata(info_hash: bytes, metadata: dict, logger=None) -> None:
         files.append({"path": name, "size": metadata[b"length"]})
 
     try:
-        torrent = Torrent.insert(info_hash=info_hash.hex(), name=name).execute()
+        torrent = Torrent.insert(
+            info_hash=info_hash.hex(), name=name, search_name=fn.to_tsvector(name)
+        ).execute()
     except IntegrityError as e:
         logger.exception(e)
         return
