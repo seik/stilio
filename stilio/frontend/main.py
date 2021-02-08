@@ -55,7 +55,7 @@ async def search(
     query: str = Query(None, max_length=50),
     page: int = Query(1, gt=0),
 ):
-    if not query:
+    if not query or not query.strip():
         return RedirectResponse("/")
 
     torrents, count = Torrent.search_by_name(
