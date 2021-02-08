@@ -10,7 +10,7 @@ from peewee import (
     ForeignKeyField,
     IntegerField,
 )
-from playhouse.postgres_ext import Match
+from playhouse.postgres_ext import Match, TSVectorField
 
 from stilio.persistence.database import BaseModel
 
@@ -18,6 +18,7 @@ from stilio.persistence.database import BaseModel
 class Torrent(BaseModel):
     info_hash = CharField(max_length=40, unique=True)
     name = CharField(max_length=512)
+    search_name = TSVectorField()
 
     seeders = IntegerField(default=0)
     leechers = IntegerField(default=0)
@@ -52,7 +53,7 @@ class Torrent(BaseModel):
         cleaned_name = "".join([letter for letter in name if letter.isalpha() or " "])
         # Every word is required so &
         cleaned_name = cleaned_name.replace(" ", " & ")
-        queryset = cls.select().where(Match(Torrent.name, cleaned_name))
+        queryset = cls.select().where(Torrent.search_name.match(cleaned_name))
 
         torrent_count = queryset.select().count()
         torrents = (
