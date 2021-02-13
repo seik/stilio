@@ -21,4 +21,4 @@ RUN rm -rf /pyproject.toml \
 RUN apt-get remove -y build-essential \
     && apt-get -y autoremove
 
-CMD ["uvicorn", "stilio.frontend.main:app", "--reload", "--host", "0.0.0.0"]
+CMD ["uvicorn", "--reload", "--host", "0.0.0.0", "stilio.frontend.main:app"]

@@ -1,22 +1,25 @@
-from random import randint
 from uuid import uuid4
 
 from faker import Faker
+from playhouse.postgres_ext import fn
 
 from stilio.persistence import database
 from stilio.persistence.database import db
-from stilio.persistence.torrents.models import File, Torrent
+from stilio.persistence.torrents.models import Torrent
 
 
 @db.connection_context()
 def create_fake_data() -> None:
     fake = Faker()
-    for i in range(1_000):
-        torrent_id = Torrent.insert(info_hash=uuid4(), name=fake.text()[10:]).execute()
-        for j in range(randint(1, 10)):
-            File.insert(
-                path="path", size=randint(1, 10000), torrent=torrent_id
-            ).execute()
+    for _ in range(1_000):
+        name = fake.text()[10:]
+        torrent_id = Torrent.insert(
+            info_hash=uuid4(),
+            name=name,
+            search_name=fn.to_tsvector(name),
+            size="",
+            files="",
+        ).execute()
         print(f"Added torrent with ID {torrent_id} to the database")
 
 

@@ -12,7 +12,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/app:z
     env_file:
       - ./.env
 
