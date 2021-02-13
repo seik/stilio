@@ -51,6 +51,7 @@ class FileSystem:
 
 def store_metadata(info_hash: bytes, metadata: dict, logger=None) -> None:
     name = metadata[b"name"].decode("utf-8")
+    search_name = name.replace(".", " ")
     files = get_file_structure(metadata, name)
     size = get_size(metadata)
 
@@ -58,7 +59,7 @@ def store_metadata(info_hash: bytes, metadata: dict, logger=None) -> None:
         Torrent.insert(
             info_hash=info_hash.hex(),
             name=name,
-            search_name=fn.to_tsvector(name),
+            search_name=fn.to_tsvector(search_name),
             files=json.dumps(files),
             size=size,
         ).execute()
@@ -90,3 +91,4 @@ def get_size(metadata: dict) -> int:
         return sum([element[b"length"] for element in metadata[b"files"]])
     else:
         return 0
+
