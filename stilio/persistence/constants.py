@@ -1,3 +1,3 @@
-from stilio.persistence.torrents.models import File, Torrent
+from stilio.persistence.torrents.models import Torrent
 
-MODELS = [Torrent, File]
+MODELS = [Torrent]
