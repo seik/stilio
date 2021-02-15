@@ -91,4 +91,3 @@ def get_size(metadata: dict) -> int:
         return sum([element[b"length"] for element in metadata[b"files"]])
     else:
         return 0
-
