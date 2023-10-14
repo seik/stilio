@@ -60,7 +60,7 @@ def store_metadata(info_hash: bytes, metadata: dict, logger=None) -> None:
             info_hash=info_hash.hex(),
             name=name,
             search_name=fn.to_tsvector(search_name),
-            files=json.dumps(files),
+            files=json.dumps(files, ensure_ascii=False),
             size=size,
         ).execute()
     except IntegrityError as e:
