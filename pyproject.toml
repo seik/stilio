@@ -18,7 +18,7 @@ peewee-async = "^0.7.0"
 aiopg = "^1.0.0"
 psycopg2-binary = "^2.8.4"
 Faker = "^4.0.2"
-ipython = "^7.20.0"
+ipython = "^7.31.1"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
